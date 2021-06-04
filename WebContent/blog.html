@@ -1,0 +1,43 @@
+<p class="lead">Granting fine-grained access to the D-HUNT Redshift Management Console</p>
+<p>
+As a fully managed service, Amazon Redshift is designed to be easy to set up and use. In this blog post, we demonstrate how to grant access to users in an operations group to perform only specific actions in the Amazon Redshift Management Console. If you implement a custom IAM policy, you can set it up so these users can monitor and terminate running queries. At the same time, you can prevent these users from performing other more privileged operations such as modifying, restarting, or deleting an Amazon Redshift cluster.</p>
+                 <div class="well ">
+                    <large>This is image</large>
+                </div>
+<p class="Lead">
+An overview of Amazon Redshift access control</p>
+                <blockquote>
+  <p>
+  Since its release in February 2013, Amazon Redshift has quickly become a popular cloud-based data warehousing platform for thousands of customers worldwide.
+
+Access to Amazon Redshift requires credentials that AWS can use to authenticate your requests. Those credentials must have permissions to access Amazon Redshift resources, such as an Amazon Redshift cluster or a snapshot. For more details on these credentials, see Authentication and Access Control for Amazon Redshift in the Amazon Redshift documentation.
+
+Every AWS resource is owned by an AWS account, and permissions to create or access the resources are governed by AWS Identity and Access Management (IAM) policies. An AWS account administrator can attach permissions policies to IAM identities (users, groups, and roles). In particular, an AWS account administrator can attach an IAM permissions policy to a specific user. Such a policy grants permissions for that user to manage an Amazon Redshift resource, such as a snapshot or an event subscription.
+
+When granting permissions, you can decide who gets the permissions and which Amazon Redshift resources they get permissions for. You can also decide on the specific actions that you want to allow on those resources. Policies attached to an IAM identity are referred to as identity-based IAM policies, and policies attached to a resource are referred to as resource-based policies. Amazon Redshift supports only identity-based IAM policies.</p>
+  <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+</blockquote>
+<p>
+With this permission policy, an IAM user can select an Amazon Redshift cluster, list all running queries in the Queries tab, and terminate a query if needed. All the permissions are read-only. Thus, the user can’t create a new Amazon Redshift cluster or modify or delete an existing cluster. However, the user can view available clusters, cluster snapshots, parameter groups, and cluster subnet groups, and view other properties of existing clusters.</p>
+
+<p>
+With the above IAM policy in place, after the IAM user logs into the Amazon Redshift Management Console, the user can select and view details about the Amazon Redshift cluster or clusters in the account. After navigating to the Queries tab, the user can see both the running and completed queries.</p>
+                <blockquote>
+ <p class="lead">Use case: Setting limited access for a user</p>
+  <p>
+  Consider the following use case. Suppose that an IAM user who is a member of a customer’s operations group needs to monitor and terminate queries running in an Amazon Redshift cluster. It’s best if they do so through the Amazon Redshift console. This user is not allowed to modify or delete any other Amazon Redshift resources.
+
+To implement this use case, we need to implement a custom IAM policy that ensures this IAM user has read-only access to the Amazon Redshift console. Doing this means that the user can get descriptions of the available clusters and navigate to the Queries tab. Additionally, we want the IAM user to be able to cancel a running query through the Amazon Redshift console. To allow this, we use the redshift:CancelQuerySession IAM action. For descriptions of other allowed Amazon Redshift actions in an IAM policy and what each action means, see Actions Defined by Amazon Redshift in the Amazon Redshift documentation.</p>
+  
+</blockquote>
+
+                 <div class="image-block">
+                     <img src="image/blog/blog-01.jpg" class="img-responsive" >
+                 </div>
+
+<p>
+In this post, we have walked through a detailed customer use case of providing fine-grained access to the Amazon Redshift console. Using a set of carefully tailored IAM policies, a customer’s operations personnel can have read-only access to the Amazon Redshift console. These personnel can cancel or terminate running queries without the ability to modify, add, or delete any other Amazon Redshift resources.
+
+We want to acknowledge our fellow AWS co-workers Ryan Mich, Sulay Shah and Hunter Grider for their many useful comments and suggestions.
+
+If you have any questions or suggestions, leave your feedback in the comment section. If you need any further assistance to optimize your Amazon Redshift implementation, contact your AWS account team or a trusted AWS partner.</p>
